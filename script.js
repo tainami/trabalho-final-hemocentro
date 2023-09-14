@@ -50,7 +50,7 @@ const listarDoadoresPorTipo = () => {
             achouTipoSanguineo = true
         }
     }
-    if(!achouTipoSanguineo) {
+    if (!achouTipoSanguineo) {
         doadoresLista = "Tipo sanguíneo indisponível"
     }
 
@@ -63,16 +63,14 @@ const buscarDoadoresPorData = () => {
     let escolhaDoUsuario = prompt("Digite a data desejada (dd/mm/aaaa)")
     let doadoresLista = cabecalhoBusca("RESULTADO DA BUSCA:")
     let achouPeriodo = false
-    const periodo = new Date(escolhaDoUsuario)
 
     for (let i = 0; i < doadores.length; i++) {
-        const dataDoacao = new Date(doadores[i].dataUltimaDoacao)
-        if( dataDoacao < periodo) {
+        if(doadores[i].dataUltimaDoacao < escolhaDoUsuario) {
             doadoresLista += `\n${doadores[i].nome.padEnd(17)}|${doadores[i].idade.padEnd(7)}|${doadores[i].peso.padEnd(6)}|${doadores[i].tipoSanguineo.padEnd(16)}|${doadores[i].dataUltimaDoacao.padEnd(14)}`
             achouPeriodo = true
         } 
     }
-    if(!achouPeriodo) {
+    if (!achouPeriodo) {
         doadoresLista = "Período indisponível"
     }
 
