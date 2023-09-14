@@ -1,4 +1,8 @@
-let doadores = []
+let doadores = [
+    {nome: "José da Silva", idade: "40", peso: "80", tipoSanguineo: "AB-", dataUltimaDoacao: "04/07/2023"},
+    {nome: "Maria da Silva", idade: "37", peso: "70", tipoSanguineo: "A+", dataUltimaDoacao: "04/07/2023"},
+    {nome: "Luciano", idade: "45", peso: "84", tipoSanguineo: "O+", dataUltimaDoacao: "20/08/2023"}
+]
 
 const cabecalhoBusca = (tituloBusca) => {
     return (`
@@ -38,13 +42,16 @@ const listarDoadores = () => {
 const listarDoadoresPorTipo = () => {
     let escolhaDoUsuario = prompt("Digite o tipo sanguíneo desejado:\nAB+\nA+\nB+\nO+\nAB-\nA-\nB-\nO-")
     let doadoresLista = cabecalhoBusca("RESULTADO DA BUSCA:")
+    let achouTipoSanguineo = false
 
     for (let i = 0; i < doadores.length; i++) {
         if(doadores[i].tipoSanguineo.toUpperCase() === escolhaDoUsuario.toUpperCase()) {
             doadoresLista += `\n${doadores[i].nome.padEnd(17)}|${doadores[i].idade.padEnd(7)}|${doadores[i].peso.padEnd(6)}|${doadores[i].tipoSanguineo.padEnd(16)}|${doadores[i].dataUltimaDoacao.padEnd(14)}`
-        } else {
-            doadoresLista += "Tipo sanguíneo indisponível!"
+            achouTipoSanguineo = true
         }
+    }
+    if(!achouTipoSanguineo) {
+        doadoresLista = "Tipo sanguíneo indisponível"
     }
 
     doadoresLista += "\n-----------------------------------------------------------------"
@@ -55,13 +62,18 @@ const listarDoadoresPorTipo = () => {
 const buscarDoadoresPorData = () => {
     let escolhaDoUsuario = prompt("Digite a data desejada (dd/mm/aaaa)")
     let doadoresLista = cabecalhoBusca("RESULTADO DA BUSCA:")
+    let achouPeriodo = false
+    const periodo = new Date(escolhaDoUsuario)
 
     for (let i = 0; i < doadores.length; i++) {
-        if(doadores[i].dataUltimaDoacao < escolhaDoUsuario.toUpperCase()) {
+        const dataDoacao = new Date(doadores[i].dataUltimaDoacao)
+        if( dataDoacao < periodo) {
             doadoresLista += `\n${doadores[i].nome.padEnd(17)}|${doadores[i].idade.padEnd(7)}|${doadores[i].peso.padEnd(6)}|${doadores[i].tipoSanguineo.padEnd(16)}|${doadores[i].dataUltimaDoacao.padEnd(14)}`
-        } else {
-            doadoresLista += "Período indisponível"
-        }
+            achouPeriodo = true
+        } 
+    }
+    if(!achouPeriodo) {
+        doadoresLista = "Período indisponível"
     }
 
     doadoresLista += "\n-----------------------------------------------------------------"
