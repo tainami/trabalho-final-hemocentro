@@ -1,7 +1,8 @@
 let doadores = [
     {nome: "José da Silva", idade: "40", peso: "80", tipoSanguineo: "AB-", dataUltimaDoacao: "04/07/2023"},
     {nome: "Maria da Silva", idade: "37", peso: "70", tipoSanguineo: "A+", dataUltimaDoacao: "04/07/2023"},
-    {nome: "Luciano", idade: "45", peso: "84", tipoSanguineo: "O+", dataUltimaDoacao: "20/08/2023"}
+    {nome: "Luciano Pereira", idade: "45", peso: "84", tipoSanguineo: "O+", dataUltimaDoacao: "20/08/2023"},
+    {nome: "Ana Santos", idade: "40", peso: "70", tipoSanguineo: "O-", dataUltimaDoacao: "20/08/2023"}
 ]
 
 const cabecalhoBusca = (tituloBusca) => {
@@ -45,11 +46,16 @@ const listarDoadoresPorTipo = () => {
     let achouTipoSanguineo = false
 
     for (let i = 0; i < doadores.length; i++) {
-        if(doadores[i].tipoSanguineo.toUpperCase() === escolhaDoUsuario.toUpperCase()) {
+        if (doadores[i].tipoSanguineo.toUpperCase() === escolhaDoUsuario.toUpperCase()) {
             doadoresLista += `\n${doadores[i].nome.padEnd(17)}|${doadores[i].idade.padEnd(7)}|${doadores[i].peso.padEnd(6)}|${doadores[i].tipoSanguineo.padEnd(16)}|${doadores[i].dataUltimaDoacao.padEnd(14)}`
             achouTipoSanguineo = true
+
+        } else if (escolhaDoUsuario.toUpperCase() === doadores[i].tipoSanguineo.replace("-", "") || escolhaDoUsuario.toUpperCase() === doadores[i].tipoSanguineo.replace("+", "")) {
+            doadoresLista += `\n${doadores[i].nome.padEnd(17)}|${doadores[i].idade.padEnd(7)}|${doadores[i].peso.padEnd(6)}|${doadores[i].tipoSanguineo.padEnd(16)}|${doadores[i].dataUltimaDoacao.padEnd(14)}`
+            achouTipoSanguineo = true 
         }
     }
+
     if (!achouTipoSanguineo) {
         doadoresLista = "Tipo sanguíneo indisponível"
     }
@@ -63,9 +69,13 @@ const buscarDoadoresPorData = () => {
     let escolhaDoUsuario = prompt("Digite a data desejada (dd/mm/aaaa)")
     let doadoresLista = cabecalhoBusca("RESULTADO DA BUSCA:")
     let achouPeriodo = false
+    const partesDataUsuario = escolhaDoUsuario.split("/")
+    const periodo = new Date(partesDataUsuario[2], partesDataUsuario[1] - 1, partesDataUsuario[0])
 
     for (let i = 0; i < doadores.length; i++) {
-        if(doadores[i].dataUltimaDoacao < escolhaDoUsuario) {
+        const partesDataDoacao = doadores[i].dataUltimaDoacao.split("/")
+        const dataDoacao = new Date(partesDataDoacao[2], partesDataDoacao[1] - 1, partesDataDoacao[0])
+        if(dataDoacao < periodo) {
             doadoresLista += `\n${doadores[i].nome.padEnd(17)}|${doadores[i].idade.padEnd(7)}|${doadores[i].peso.padEnd(6)}|${doadores[i].tipoSanguineo.padEnd(16)}|${doadores[i].dataUltimaDoacao.padEnd(14)}`
             achouPeriodo = true
         } 
